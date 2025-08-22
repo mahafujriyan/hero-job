@@ -1,5 +1,4 @@
 const config = {
-  output: "export",
   images: {
     remotePatterns: [
       {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
+
 import Link from "next/link";
 
 const slides = [
@@ -72,11 +72,10 @@ export default function HeroCarousel() {
         {slides.map((slide) => (
           <div
             key={slide.id}
-            className="w-full flex-shrink-0 bg-base-200"
+            className="w-full flex-shrink-0 bg-black"
           >
             <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-8 w-full px-6 lg:px-16 py-12">
-              
-              {/* Left Content */}
+          
               <div className="space-y-6 max-w-xl text-center lg:text-left">
                 <div className={`badge ${slide.badgeColor} p-4 text-lg font-bold rounded-full shadow-md`}>
                   {slide.badge}
@@ -95,7 +94,7 @@ export default function HeroCarousel() {
               {/* Right Image */}
               <div className="relative w-full max-w-sm flex justify-center">
                 <div className={`rounded-full border-8 ${slide.border} p-2 shadow-xl`}>
-                  <Image
+                  <img
                     src={slide.img}
                     alt={slide.badge}
                     width={400}

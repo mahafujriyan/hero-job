@@ -11,13 +11,7 @@ export default function Footer() {
     
         <div>
           <div className="flex items-center mb-4">
-            <Image
-              src="/asscets/logo-1 (2).png" 
-              alt="Logo"
-              width={50}
-              height={50}
-              className="mr-3"
-            />
+           
             <h2 className="text-2xl font-bold text-red-500">Travel Guru</h2>
           </div>
           <p className="text-gray-400">

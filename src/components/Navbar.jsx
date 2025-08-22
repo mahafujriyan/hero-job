@@ -3,67 +3,99 @@
 import { useState } from "react";
 import Link from "next/link";
 import { FaBars, FaTimes } from "react-icons/fa";
-
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const { data: session } = useSession();
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-gradient-to-r from-green-300 via-blue-500 to-green-300 text-white shadow-md z-50">
+     <div className="fixed top-0 left-0 w-full bg-gradient-to-r from-green-300 via-blue-500 to-green-300 text-white shadow-md z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-
         <Link href="/" className="flex items-center">
-          <img
-            src="/asscets/logo-1 (2).png"
-            alt="Logo"
-            className="h-15 w-auto"
-          />
+          <h2 className="font-bold text-xl">MyApp</h2>
         </Link>
 
-      
         <ul className="hidden lg:flex space-x-6 text-lg font-medium">
           <li><Link href="/">Home</Link></li>
-          <li><Link href="#">Tours</Link></li>
-          <li><Link href="#">About Us</Link></li>
-          <li><Link href="#">Contact</Link></li>
+          <li><Link href="/products">Products</Link></li>
+          <li><Link href="/about">About Us</Link></li>
+          <li><Link href="/contact">Contact</Link></li>
+
+          {/* Only show Add Product if user is logged in */}
+          {session && (
+            <li>
+              <Link
+                href="/products/add"
+                className="bg-white text-red-700 px-3 py-1 rounded-full hover:bg-red-200"
+              >
+                Add Product
+              </Link>
+            </li>
+          )}
         </ul>
 
-        {/* Desktop Button */}
         <div className="hidden lg:block">
-          <Link
-            href="/contact"
-            className="btn btn-sm bg-white text-red-700 hover:bg-red-200 border-none rounded-full px-4"
-          >
-            Get Started
-          </Link>
+          {session ? (
+            <button
+              onClick={() => signOut()}
+              className="btn btn-sm bg-white text-red-700 hover:bg-red-200 border-none rounded-full px-4"
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              onClick={() => signIn("credentials", { callbackUrl: "/products" })}
+              className="btn btn-sm bg-white text-red-700 hover:bg-red-200 border-none rounded-full px-4"
+            >
+              Login
+            </button>
+          )}
         </div>
 
-        
         <button
           className="lg:hidden text-2xl p-2"
           onClick={() => setOpen(!open)}
-          aria-label="Toggle Menu"
         >
           {open ? <FaTimes /> : <FaBars />}
         </button>
       </div>
 
-      {/* Mobile Menu */}
       {open && (
-        <div className="lg:hidden bg-red-800 px-6 py-4 space-y-3 flex flex-col gap-2">
+        <div className="lg:hidden bg-red-800 px-6 py-4 flex flex-col gap-2">
           <Link href="/" onClick={() => setOpen(false)}>Home</Link>
-          <Link href="/tour" onClick={() => setOpen(false)}>Tours</Link>
+          <Link href="/products" onClick={() => setOpen(false)}>Products</Link>
           <Link href="/about" onClick={() => setOpen(false)}>About Us</Link>
-          <Link href="/Contact" onClick={() => setOpen(false)}>Contact</Link>
-          <Link
-            href="/contact"
-            onClick={() => setOpen(false)}
-            className="block btn btn-sm bg-white text-red-700 hover:bg-red-200 border-none rounded-full w-full"
-          >
-            Get Started
-          </Link>
+          <Link href="/contact" onClick={() => setOpen(false)}>Contact</Link>
+
+          {/* Mobile Add Product */}
+          {session && (
+            <Link
+              href="/products/add"
+              onClick={() => setOpen(false)}
+              className="block bg-white text-red-700 px-3 py-1 rounded-full text-center hover:bg-red-200"
+            >
+              Add Product
+            </Link>
+          )}
+
+          {session ? (
+            <button
+              onClick={() => { setOpen(false); signOut(); }}
+              className="block btn btn-sm bg-white text-red-700 hover:bg-red-200 border-none rounded-full w-full"
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              onClick={() => { setOpen(false); signIn("credentials", { callbackUrl: "/products" }); }}
+              className="block btn btn-sm bg-white text-red-700 hover:bg-red-200 border-none rounded-full w-full"
+            >
+              Login
+            </button>
+          )}
         </div>
       )}
-    </nav>
+    </div>
   );
 }
