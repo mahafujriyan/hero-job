@@ -12,7 +12,7 @@ export default function Footer() {
         <div>
           <div className="flex items-center mb-4">
            
-            <h2 className="text-2xl font-bold text-red-500">Travel Guru</h2>
+            <h2 className="text-2xl font-bold text-red-500">YMart</h2>
           </div>
           <p className="text-gray-400">
             Explore the world with us. We make every journey memorable and

@@ -32,7 +32,7 @@ export default function AddProductPage() {
     setLoading(true);
     setError("");
 
-    // Convert sizes/colors from comma-separated string to array
+
     const payload = {
       ...form,
       sizes: form.sizes.split(",").map((s) => s.trim()).filter(Boolean),
@@ -53,7 +53,7 @@ export default function AddProductPage() {
       if (!res.ok) throw new Error(data.error || "Failed to add product");
 
       alert("Product added successfully!");
-      router.push("/products"); // redirect to products page
+      router.push("/products"); 
     } catch (err) {
       setError(err.message);
       console.error(err);

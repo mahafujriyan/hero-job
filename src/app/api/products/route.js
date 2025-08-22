@@ -4,22 +4,24 @@ import { NextResponse } from "next/server";
 export async function GET() {
   try {
     const productsCollection = await dbConnect("products");
-    const products = await productsCollection.find({}).toArray();
+    const items = await productsCollection.find({}).toArray();
 
-    const formatted = products.map((p) => ({
+    const formatted = items.map(p => ({
       _id: p._id.toString(),
-      name: p.title || p.name || "Unnamed Product",
-      price: p.price ?? 0,
-      oldPrice: p.oldPrice ?? null,
-      discount: p.discount ?? null,
-      ratings: p.ratings ?? 0,
-      stock: p.stock ?? "AVAILABLE",
+      name: p.title,
+      price: p.price,
+      oldPrice: p.mrp,
+      discount: p.discount,
+      stock: p.stock,
       image: p.image || "/placeholder.png",
+      sizes: p.sizes || [],
+      colors: p.colors || [],
+      description: p.description || "",
     }));
 
     return NextResponse.json(formatted);
-  } catch (error) {
-    console.error("❌ API Error in /api/products:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

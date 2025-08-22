@@ -13,7 +13,7 @@ export default function Navbar() {
      <div className="fixed top-0 left-0 w-full bg-gradient-to-r from-green-300 via-blue-500 to-green-300 text-white shadow-md z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
         <Link href="/" className="flex items-center">
-          <h2 className="font-bold text-xl">MyApp</h2>
+          <h2 className="font-bold text-xl">YMart</h2>
         </Link>
 
         <ul className="hidden lg:flex space-x-6 text-lg font-medium">
@@ -22,7 +22,7 @@ export default function Navbar() {
           <li><Link href="/about">About Us</Link></li>
           <li><Link href="/contact">Contact</Link></li>
 
-          {/* Only show Add Product if user is logged in */}
+         
           {session && (
             <li>
               <Link
@@ -68,7 +68,7 @@ export default function Navbar() {
           <Link href="/about" onClick={() => setOpen(false)}>About Us</Link>
           <Link href="/contact" onClick={() => setOpen(false)}>Contact</Link>
 
-          {/* Mobile Add Product */}
+       
           {session && (
             <Link
               href="/products/add"
@@ -87,12 +87,13 @@ export default function Navbar() {
               Logout
             </button>
           ) : (
-            <button
-              onClick={() => { setOpen(false); signIn("credentials", { callbackUrl: "/products" }); }}
-              className="block btn btn-sm bg-white text-red-700 hover:bg-red-200 border-none rounded-full w-full"
+         <button
+              onClick={() => (window.location.href = "/login")}
+              className="btn btn-sm bg-white text-red-700 hover:bg-red-200 border-none rounded-full px-4"
             >
               Login
             </button>
+
           )}
         </div>
       )}
