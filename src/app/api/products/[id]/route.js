@@ -1,39 +1,30 @@
-import dbConnect from "@/lib/dbConnect";
-import { NextResponse } from "next/server";
+// pages/api/products/[id].js
+import clientPromise from "../../../lib/mongodb";
 import { ObjectId } from "mongodb";
 
-export async function GET(req) {
+export default async function handler(req, res) {
+  const { id } = req.query;
+
   try {
-    const url = new URL(req.url);
-    const id = url.pathname.split("/").pop();
+    const client = await clientPromise;
+    const db = client.db(process.env.DB_NAME);
 
-    if (!ObjectId.isValid(id)) {
-      return NextResponse.json({ error: "Invalid product ID" }, { status: 400 });
+    if (req.method === "GET") {
+      const product = await db
+        .collection("products")
+        .findOne({ _id: new ObjectId(id) });
+
+      if (!product) {
+        return res.status(404).json({ error: "Product not found" });
+      }
+
+      res.status(200).json(product);
+    } else {
+      res.setHeader("Allow", ["GET"]);
+      res.status(405).end(`Method ${req.method} Not Allowed`);
     }
-
-    const productsCollection = await dbConnect("products");
-    const product = await productsCollection.findOne({ _id: new ObjectId(id) });
-
-    if (!product) {
-      return NextResponse.json({ error: "Product not found" }, { status: 404 });
-    }
-
-    const formatted = {
-      _id: product._id.toString(),
-      name: product.title,
-      price: product.price,
-      oldPrice: product.mrp,
-      discount: product.discount,
-      stock: product.stock,
-      image: product.image || "/placeholder.png",
-      sizes: product.sizes || [],
-      colors: product.colors || [],
-      description: product.description || "",
-    };
-
-    return NextResponse.json(formatted);
-  } catch (err) {
-    console.error(err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (error) {
+    console.error("MongoDB Error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 }

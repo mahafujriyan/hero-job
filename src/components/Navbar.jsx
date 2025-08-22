@@ -25,12 +25,13 @@ export default function Navbar() {
          
           {session && (
             <li>
-              <Link
-                href="/products/add"
+             <Link
+                href="/dashboard/add-products"
                 className="bg-white text-red-700 px-3 py-1 rounded-full hover:bg-red-200"
               >
                 Add Product
               </Link>
+
             </li>
           )}
         </ul>
@@ -70,13 +71,13 @@ export default function Navbar() {
 
        
           {session && (
-            <Link
-              href="/products/add"
-              onClick={() => setOpen(false)}
-              className="block bg-white text-red-700 px-3 py-1 rounded-full text-center hover:bg-red-200"
-            >
-              Add Product
-            </Link>
+           <Link
+            href="/dashboard/add-products"
+            className="bg-white text-red-700 px-3 py-1 rounded-full hover:bg-red-200"
+          >
+            Add Product
+          </Link>
+
           )}
 
           {session ? (

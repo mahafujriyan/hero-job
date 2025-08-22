@@ -1,27 +1,22 @@
-import dbConnect from "@/lib/dbConnect";
-import { NextResponse } from "next/server";
 
-export async function GET() {
+
+import clientPromise from "@/lib/mongodb";
+
+
+export default async function handler(req, res) {
   try {
-    const productsCollection = await dbConnect("products");
-    const items = await productsCollection.find({}).toArray();
+    const client = await clientPromise;
+    const db = client.db(process.env.DB_NAME);
 
-    const formatted = items.map(p => ({
-      _id: p._id.toString(),
-      name: p.title,
-      price: p.price,
-      oldPrice: p.mrp,
-      discount: p.discount,
-      stock: p.stock,
-      image: p.image || "/placeholder.png",
-      sizes: p.sizes || [],
-      colors: p.colors || [],
-      description: p.description || "",
-    }));
-
-    return NextResponse.json(formatted);
-  } catch (err) {
-    console.error(err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    if (req.method === "GET") {
+      const products = await db.collection("products").find({}).toArray();
+      res.status(200).json(products);
+    } else {
+      res.setHeader("Allow", ["GET"]);
+      res.status(405).end(`Method ${req.method} Not Allowed`);
+    }
+  } catch (error) {
+    console.error("MongoDB Error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 }
