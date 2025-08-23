@@ -10,32 +10,32 @@ export default function Navbar() {
   const { data: session } = useSession();
 
   return (
-     <div className="fixed top-0 left-0 w-full bg-gradient-to-r from-green-300 via-blue-500 to-green-300 text-white shadow-md z-50">
+    <div className="fixed top-0 left-0 w-full bg-gradient-to-r from-green-300 via-blue-500 to-green-300 text-white shadow-md z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
         <Link href="/" className="flex items-center">
           <h2 className="font-bold text-xl">YMart</h2>
         </Link>
 
+        {/* Desktop Menu */}
         <ul className="hidden lg:flex space-x-6 text-lg font-medium">
           <li><Link href="/">Home</Link></li>
           <li><Link href="/products">Products</Link></li>
           <li><Link href="/about">About Us</Link></li>
           <li><Link href="/contact">Contact</Link></li>
 
-         
           {session && (
             <li>
-             <Link
-                href="/dashboard/add-products"
+              <Link
+                href="/dashboard"
                 className="bg-white text-red-700 px-3 py-1 rounded-full hover:bg-red-200"
               >
-                Add Product
+                Dashboard
               </Link>
-
             </li>
           )}
         </ul>
 
+   
         <div className="hidden lg:block">
           {session ? (
             <button
@@ -54,6 +54,7 @@ export default function Navbar() {
           )}
         </div>
 
+       
         <button
           className="lg:hidden text-2xl p-2"
           onClick={() => setOpen(!open)}
@@ -62,6 +63,7 @@ export default function Navbar() {
         </button>
       </div>
 
+
       {open && (
         <div className="lg:hidden bg-red-800 px-6 py-4 flex flex-col gap-2">
           <Link href="/" onClick={() => setOpen(false)}>Home</Link>
@@ -69,15 +71,14 @@ export default function Navbar() {
           <Link href="/about" onClick={() => setOpen(false)}>About Us</Link>
           <Link href="/contact" onClick={() => setOpen(false)}>Contact</Link>
 
-       
           {session && (
-           <Link
-            href="/dashboard/add-products"
-            className="bg-white text-red-700 px-3 py-1 rounded-full hover:bg-red-200"
-          >
-            Add Product
-          </Link>
-
+            <Link
+              href="/dashboard"
+              onClick={() => setOpen(false)}
+              className="bg-white text-red-700 px-3 py-1 rounded-full hover:bg-red-200"
+            >
+              Dashboard
+            </Link>
           )}
 
           {session ? (
@@ -88,13 +89,12 @@ export default function Navbar() {
               Logout
             </button>
           ) : (
-         <button
+            <button
               onClick={() => (window.location.href = "/login")}
               className="btn btn-sm bg-white text-red-700 hover:bg-red-200 border-none rounded-full px-4"
             >
               Login
             </button>
-
           )}
         </div>
       )}
