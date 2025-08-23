@@ -20,7 +20,7 @@ export default function Navbar() {
         <ul className="hidden lg:flex space-x-6 text-lg font-medium">
           <li><Link href="/">Home</Link></li>
           <li><Link href="/products">Products</Link></li>
-          <li><Link href="/about">About Us</Link></li>
+      
           <li><Link href="/contact">Contact</Link></li>
 
           {session && (
@@ -68,7 +68,7 @@ export default function Navbar() {
         <div className="lg:hidden bg-red-800 px-6 py-4 flex flex-col gap-2">
           <Link href="/" onClick={() => setOpen(false)}>Home</Link>
           <Link href="/products" onClick={() => setOpen(false)}>Products</Link>
-          <Link href="/about" onClick={() => setOpen(false)}>About Us</Link>
+        
           <Link href="/contact" onClick={() => setOpen(false)}>Contact</Link>
 
           {session && (

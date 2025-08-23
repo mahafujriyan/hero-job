@@ -29,11 +29,9 @@ export default function Footer() {
               <a href="/" className="hover:text-red-400 transition">Home</a>
             </li>
             <li>
-              <a href="/tours" className="hover:text-red-400 transition">Tours</a>
+              <a href="/products" className="hover:text-red-400 transition">Tours</a>
             </li>
-            <li>
-              <a href="/about" className="hover:text-red-400 transition">About</a>
-            </li>
+           
             <li>
               <a href="/contact" className="hover:text-red-400 transition">Contact</a>
             </li>
