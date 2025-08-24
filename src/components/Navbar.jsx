@@ -15,7 +15,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
         <Link href="/" className="flex items-center">
-        <img className="w-20 h-" src="/asscet/ymart (1).png" alt=""  />
+        <img className="w-20 h-15" src="/asscet/ymart (1).png" alt=""  />
         </Link>
 
         {/* Desktop Menu */}

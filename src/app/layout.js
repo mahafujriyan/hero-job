@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
       >
         <Providers>
             <Navbar></Navbar>
-            <main className="py-10 min-h-screen mx-auto ">{children}</main>
+            <main className="py-15 min-h-screen mx-auto ">{children}</main>
              <Footer></Footer>
         </Providers>
       </body>

@@ -1,3 +1,4 @@
+export const runtime = "nodejs";
 import clientPromise from "@/lib/mongodb";
 import bcrypt from "bcryptjs";
 
