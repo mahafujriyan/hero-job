@@ -38,7 +38,7 @@ export default function AddProduct() {
     });
 
     console.log("Product submitted:", product);
-    router.push("/dashboard/my-products");
+    router.push("/products");
   };
 
   return (

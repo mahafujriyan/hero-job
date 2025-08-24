@@ -1,30 +1,26 @@
-import { NextResponse } from "next/server";
-import { MongoClient } from "mongodb";
-import bcrypt from "bcrypt";
-
-const uri = process.env.MONGODB_URI;
-const client = new MongoClient(uri);
+import clientPromise from "@/lib/mongodb";
+import bcrypt from "bcryptjs";
 
 export async function POST(req) {
   try {
     const { name, email, password } = await req.json();
 
     if (!name || !email || !password) {
-      return NextResponse.json(
-        { error: "All fields are required" },
+      return new Response(
+        JSON.stringify({ error: "All fields are required" }),
         { status: 400 }
       );
     }
 
-    await client.connect();
-    const db = client.db(process.env.DB_NAME);
+    const client = await clientPromise;
+    const db = client.db('yMart');
     const users = db.collection("users");
 
-    // Check if user exists
+    // Check if user already exists
     const existingUser = await users.findOne({ email });
     if (existingUser) {
-      return NextResponse.json(
-        { error: "User already exists" },
+      return new Response(
+        JSON.stringify({ error: "User already exists" }),
         { status: 400 }
       );
     }
@@ -32,26 +28,23 @@ export async function POST(req) {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Save user
-    const result = await users.insertOne({
+    // Insert new user
+    await users.insertOne({
       name,
       email,
       password: hashedPassword,
       createdAt: new Date(),
-      provider: "credentials",
     });
 
-    return NextResponse.json(
-      { message: "User created successfully", userId: result.insertedId },
+    return new Response(
+      JSON.stringify({ message: "User created successfully" }),
       { status: 201 }
     );
   } catch (error) {
     console.error("Signup error:", error);
-    return NextResponse.json(
-      { error: "Something went wrong" },
+    return new Response(
+      JSON.stringify({ error: "Internal Server Error" }),
       { status: 500 }
     );
-  } finally {
-   
   }
 }

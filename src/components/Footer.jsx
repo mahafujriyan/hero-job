@@ -6,13 +6,13 @@ import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/f
 
 export default function Footer() {
   return (
-     <footer className="bg-gray-900 text-gray-200 py-12">
+     <footer className="bg-gradient-to-r from-green-100 via-blue-300 to-green-100 text-wh text-gray-200 py-12">
       <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
     
         <div>
           <div className="flex items-center mb-4">
            
-            <h2 className="text-2xl font-bold text-red-500">YMart</h2>
+            <img className="w-20 h-15" src="/asscet/ymart (1).png" alt="" />
           </div>
           <p className="text-gray-400">
             Explore the world with us. We make every journey memorable and
@@ -29,7 +29,7 @@ export default function Footer() {
               <a href="/" className="hover:text-red-400 transition">Home</a>
             </li>
             <li>
-              <a href="/products" className="hover:text-red-400 transition">Tours</a>
+              <a href="/products" className="hover:text-red-400 transition">Products</a>
             </li>
            
             <li>
@@ -48,8 +48,8 @@ export default function Footer() {
 
    
         <div>
-          <h2 className="text-xl font-bold text-red-500 mb-4">Follow Us</h2>
-          <div className="flex space-x-4">
+          <h2 className="text-xl  font-bold text-red-500 mb-4">Follow Us</h2>
+          <div className=" text-black flex space-x-4">
             <a href="https://www.facebook.com/share/1JJHToMdZz/" className="hover:text-red-400 transition"><FaFacebookF /></a>
             <a href="https://x.com/Mhriyan87" className="hover:text-red-400 transition"><FaTwitter /></a>
             <a href="https://www.instagram.com/mahafujhr?igsh=Y2p1MmQ1b21tMjNm" className="hover:text-red-400 transition"><FaInstagram /></a>

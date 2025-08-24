@@ -12,7 +12,7 @@ export default async function DashboardLayout({ children }) {
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen my-3">
    
       <aside className="w-64 bg-gray-800 text-white flex flex-col p-4">
         <h2 className="text-xl font-bold mb-6">Dashboard</h2>

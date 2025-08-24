@@ -18,10 +18,12 @@ async function createUser({ name, email, password, provider }) {
   const db = client.db(process.env.DB_NAME);
   const users = db.collection("users");
 
+  const hashedPassword = password ? await bcrypt.hash(password, 10) : null;
+
   const newUser = {
     name,
     email,
-    password: password || null, 
+    password: hashedPassword,
     provider,
     createdAt: new Date(),
   };
@@ -32,19 +34,19 @@ async function createUser({ name, email, password, provider }) {
 
 export const authOptions = {
   providers: [
-  
+    // Google OAuth
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
 
-
+    // GitHub OAuth
     GitHubProvider({
       clientId: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
     }),
 
-
+    // Credentials login
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -52,13 +54,16 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const { email, password } = credentials;
+        if (!credentials?.email || !credentials?.password) return null;
 
-        const user = await getUserByEmail(email);
-        if (!user) throw new Error("No user found with this email");
+        const user = await getUserByEmail(credentials.email);
+        if (!user) return null;
 
-        const isValid = await bcrypt.compare(password, user.password);
-        if (!isValid) throw new Error("Invalid password");
+        const isValid = await bcrypt.compare(
+          credentials.password,
+          user.password || ""
+        );
+        if (!isValid) return null;
 
         return {
           id: user._id.toString(),
@@ -80,16 +85,16 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 
   callbacks: {
-
     async signIn({ user, account }) {
-      if (account.provider === "google" || account.provider === "github") {
+      // Auto-create user if signing in via social login
+      if (account?.provider === "google" || account?.provider === "github") {
         const existingUser = await getUserByEmail(user.email);
 
         if (!existingUser) {
           await createUser({
             name: user.name,
             email: user.email,
-            password: null, // social users don’t have password
+            password: null, // no password for social login
             provider: account.provider,
           });
         }
@@ -108,9 +113,11 @@ export const authOptions = {
 
     async session({ session, token }) {
       if (token) {
-        session.user.id = token.id;
-        session.user.name = token.name;
-        session.user.email = token.email;
+        session.user = {
+          id: token.id,
+          name: token.name,
+          email: token.email,
+        };
       }
       return session;
     },

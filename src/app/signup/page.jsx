@@ -82,7 +82,7 @@ export default function SignupPage() {
             disabled={loading}
             className="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg"
           >
-            {loading ? "Signing up..." : "Sign Up with Credentials"}
+            {loading ? "Signing up..." : "Sign Up "}
           </button>
         </form>
 

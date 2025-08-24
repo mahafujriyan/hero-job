@@ -4,17 +4,18 @@ import { useState } from "react";
 import Link from "next/link";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { signIn, signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { data: session } = useSession();
 
   return (
-    <div className="fixed top-0 left-0 w-full bg-gradient-to-r from-green-300 via-blue-500 to-green-300 text-white shadow-md z-50">
+    <div className="fixed top-0 left-0 w-full bg-gradient-to-r from-green-300 via-blue-500 to-green-300 text-white shadow-md z-50 ">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
         <Link href="/" className="flex items-center">
-          <h2 className="font-bold text-xl">YMart</h2>
+        <img className="w-20 h-" src="/asscet/ymart (1).png" alt=""  />
         </Link>
 
         {/* Desktop Menu */}

@@ -1,4 +1,4 @@
-// src/lib/apiFetch.js
+
 export async function apiFetch(path, options = {}) {
   const res = await fetch(path, {
     ...options,
